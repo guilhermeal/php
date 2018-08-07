@@ -1,5 +1,17 @@
 <?php
 
+/*
+ * sqlInjection.php
+ * 
+ * Função criada para remover palavras que sao restritas ao SQL e MySQL, impedindo que o usuário
+ * faça alguma tentativa de Injection via POST. 
+ * A função também pode ser utilizada também para outros métodos, como exemplo; GET
+ *
+ * Autor: Guilherme Ameida
+ * Site: http://www.guilhermeal.com.br
+ * GitHub: guilhermeal
+ */
+
 function sqlInjection($texto){
 
 	// Lista de palavras para procurar
