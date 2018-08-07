@@ -7,7 +7,7 @@
  * faça alguma tentativa de Injection via POST. 
  * A função também pode ser utilizada também para outros métodos, como exemplo; GET
  *
- * Autor: Guilherme Ameida
+ * Autor: Guilherme Almeida
  * Site: http://www.guilhermeal.com.br
  * GitHub: guilhermeal
  */
