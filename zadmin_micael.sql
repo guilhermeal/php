@@ -3,10 +3,10 @@ CREATE TABLE IF NOT EXISTS `alternativas` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `idQuestao` int(11) DEFAULT NULL,
   `tipoQuestao` int(11) DEFAULT NULL,
-  `descricao` text,
-  `alternativaCorreta` tinyint(1) NOT NULL DEFAULT '0',
-  `idStatus` int(1) DEFAULT '0',
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `descricao` text DEFAULT NULL,
+  `alternativaCorreta` tinyint(1) NOT NULL DEFAULT 0,
+  `idStatus` int(1) DEFAULT 0,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `idUserCadastro` int(11) DEFAULT NULL,
   `dataAlteracao` datetime DEFAULT NULL,
   `idUserAlteracao` int(11) DEFAULT NULL,
@@ -64,14 +64,14 @@ CREATE TABLE IF NOT EXISTS `assuntos` (
   `descricao` varchar(100) DEFAULT NULL,
   `observacao` varchar(250) NOT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
   `idUserAlteracao` int(11) DEFAULT NULL,
   `idUserExclusao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `assuntos`
@@ -84,7 +84,11 @@ INSERT INTO `assuntos` (`id`, `idDisciplina`, `descricao`, `observacao`, `idStat
 (4, 13, 'Cinemática', 'Cinemática', 3, '2019-07-05 23:44:35', '2019-08-28 21:09:55', '0000-00-00 00:00:00', 1, 1, 0),
 (5, 13, 'Dinâmica', 'Dinâmica', 3, '2019-07-05 23:44:58', '2019-08-28 21:10:04', '0000-00-00 00:00:00', 1, 1, 0),
 (6, 14, 'Funções', 'Funções', 3, '2019-08-29 00:05:38', '2019-08-28 21:05:45', '0000-00-00 00:00:00', 1, 1, 0),
-(7, 14, 'Geometria Espacial', 'Geometria Espacial', 3, '2019-08-29 00:06:16', '2019-08-28 21:09:47', '0000-00-00 00:00:00', 1, 1, 0);
+(7, 14, 'Geometria Espacial', 'Geometria Espacial', 3, '2019-08-29 00:06:16', '2019-08-28 21:09:47', '0000-00-00 00:00:00', 1, 1, 0),
+(8, 14, 'Geometria Plana', 'Geometria Plana', 3, '2019-09-06 04:30:45', NULL, NULL, 1, NULL, NULL),
+(9, 12, 'Biologia floresta', 'Biologia floresta', 3, '2020-01-10 05:20:52', NULL, NULL, 1, NULL, NULL),
+(10, 14, 'Conjuntos', 'Conjuntos', 3, '2020-01-12 05:06:51', NULL, NULL, 1, NULL, NULL),
+(11, 14, 'Matemática Básica', 'Matemática Básica', 3, '2020-01-14 04:32:03', NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -111,44 +115,37 @@ CREATE TABLE IF NOT EXISTS `ativacoes` (
 DROP TABLE IF EXISTS `aulas`;
 CREATE TABLE IF NOT EXISTS `aulas` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(12) NOT NULL,
-  `titulo` varchar(200) NOT NULL,
-  `descricao` longtext NOT NULL,
+  `codigo` varchar(12) CHARACTER SET utf8 NOT NULL,
+  `titulo` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `descricao` longtext CHARACTER SET utf8 NOT NULL,
   `idDisciplina` int(11) DEFAULT NULL,
   `idTopico` int(11) NOT NULL,
-  `urlCapa` text NOT NULL,
-  `urlVideoIntro` text NOT NULL,
+  `urlCapa` text CHARACTER SET utf8 NOT NULL,
+  `urlVideoIntro` text CHARACTER SET utf8 NOT NULL,
   `valor` double(15,2) NOT NULL,
   `status` int(1) NOT NULL,
-  `ip_cadastro` varchar(15) DEFAULT NULL,
-  `ip_exclusao` varchar(15) DEFAULT NULL,
-  `dt_cadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `ip_cadastro` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip_exclusao` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `dt_cadastro` timestamp NULL DEFAULT current_timestamp(),
   `dt_alteracao` datetime DEFAULT NULL,
   `dt_exclusao` datetime DEFAULT NULL,
+  `idUserCadastro` int(11) DEFAULT NULL,
+  `idUserAlteracao` int(11) DEFAULT NULL,
+  `idUserExclusao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `codigo` (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `codigo` (`codigo`)
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Extraindo dados da tabela `aulas`
 --
 
-INSERT INTO `aulas` (`id`, `codigo`, `titulo`, `descricao`, `idDisciplina`, `idTopico`, `urlCapa`, `urlVideoIntro`, `valor`, `status`, `ip_cadastro`, `ip_exclusao`, `dt_cadastro`, `dt_alteracao`, `dt_exclusao`) VALUES
-(1, '', 'Curso teste de Matematica', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;Aqui os alunos ira&amp;atilde;o aprender um curso sorbe matematica&lt;/p&gt;\r\n\r\n', 4, 0, '', 'https://www.youtube.com/embed/0FAr57ZwutI', 450.00, 3, '::1', NULL, '2019-03-22 11:20:02', NULL, NULL),
-(2, '', 'Join GitHub today', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;&lt;span class=&quot;st&quot; style=&quot;line-height: 1.54; overflow-wrap: break-word; color: #545454; font-family: arial, sans-serif; font-size: small; background-color: #ffffff;&quot;&gt;The world\'s most popular&amp;nbsp;&lt;span style=&quot;font-weight: bold; color: #6a6a6a;&quot;&gt;flight tracker&lt;/span&gt;. Track planes in real-time on our&amp;nbsp;&lt;span style=&quot;font-weight: bold; color: #6a6a6a;&quot;&gt;flight tracker&lt;/span&gt;&amp;nbsp;map and get up-to-date&amp;nbsp;&lt;span style=&quot;font-weight: bold; color: #6a6a6a;&quot;&gt;flight&lt;/span&gt;&amp;nbsp;status &amp;amp; airport information.&lt;/span&gt;&lt;/p&gt;\r\n&lt;div class=&quot;TXwUJf&quot; style=&quot;color: #777777; font-family: arial, sans-serif; font-size: small; background-color: #ffffff;&quot;&gt;Voc&amp;ecirc; visitou esta p&amp;aacute;gina 3 vezes. &amp;Uacute;ltima visita: 09/01/19&lt;/div&gt;\r\n\r\n', 4, 0, '', 'https://www.youtube.com/watch?v=MWHN7NX7wqI', 375.23, 3, '::1', NULL, '2019-03-22 15:35:25', NULL, NULL),
-(3, '', 'Assistente Administrativo', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;&lt;span style=&quot;color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot;&gt;Com esse curso gr&amp;aacute;tis, voc&amp;ecirc; ir&amp;aacute; aprender todos os t&amp;oacute;picos necess&amp;aacute;rios para obter um excelente desempenho profissional, na fun&amp;ccedil;&amp;atilde;o de assistente administrativo (auxiliar de escrit&amp;oacute;rio).&lt;/span&gt;&lt;br style=&quot;box-sizing: border-box; color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot; /&gt;&lt;br style=&quot;box-sizing: border-box; color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot; /&gt;&lt;span style=&quot;color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot;&gt;O curso de assistente administrativo &amp;eacute; pr&amp;aacute;tico, desenvolvido para pessoas que n&amp;atilde;o disp&amp;otilde;em de muito tempo e necessitam aprender uma nova profiss&amp;atilde;o. Com esse curso gr&amp;aacute;tis voc&amp;ecirc; vai aprender desde t&amp;eacute;cnicas de&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;box-sizing: border-box; color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot;&gt;&lt;a style=&quot;box-sizing: border-box; background: transparent; color: #3991cc; text-decoration-line: none;&quot; title=&quot;Curso de reda&amp;ccedil;&amp;atilde;o oficial&quot; href=&quot;https://www.primecursos.com.br/redacao-oficial/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;reda&amp;ccedil;&amp;atilde;o&lt;/a&gt;&lt;/strong&gt;&lt;span style=&quot;color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot;&gt;, marketing pessoal,&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;box-sizing: border-box; color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot;&gt;&lt;a style=&quot;box-sizing: border-box; background: transparent; color: #3991cc; text-decoration-line: none;&quot; title=&quot;Curso de comunica&amp;ccedil;&amp;atilde;o empresarial&quot; href=&quot;https://www.primecursos.com.br/comunicacao-empresarial/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;comunica&amp;ccedil;&amp;atilde;o empresarial&lt;/a&gt;&lt;/strong&gt;&lt;span style=&quot;color: #333333; font-family: \'Open Sans\', sans-serif; font-size: 14px; text-align: justify; background-color: #ffffff;&quot;&gt;, a import&amp;acirc;ncia do bom atendimento nas organiza&amp;ccedil;&amp;otilde;es, como atender um telefone no ambiente de trabalho e muito mais!&lt;/span&gt;&lt;/p&gt;\r\n\r\n', 8, 0, '', 'https://youtu.be/cyRBugTze1c', 1211.43, 3, '::1', NULL, '2019-03-22 15:37:18', NULL, NULL),
-(4, '', 'Curso com video no vimeo', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;https://vimeo.com/channels/movie3/104823913&lt;/p&gt;\r\n\r\n', 4, 0, '', 'https://player.vimeo.com/video/104823913', 4567.89, 3, '::1', NULL, '2019-03-22 15:44:06', NULL, NULL),
-(5, '', 'Testes videos 2 no Vimeo', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;vlnsd &amp;ccedil;k sv&lt;/p&gt;\r\n&lt;p&gt;sdvajf&lt;/p&gt;\r\n&lt;p&gt;svapknsdvasdfajsdnfa&lt;/p&gt;\r\n&lt;p&gt;sdfajsdnf&lt;/p&gt;\r\n&lt;p&gt;asdfnasdfasdjnfoasdnfoasd&lt;/p&gt;\r\n&lt;p&gt;vasdjvnasd&lt;/p&gt;\r\n&lt;p&gt;vajdsnvasd&lt;/p&gt;\r\n&lt;p&gt;vaosdn&lt;/p&gt;\r\n\r\n', 12, 0, '', ' https://vimeo.com/channels/movie3/104823913', 3229.20, 1, '::1', NULL, '2019-03-22 15:48:26', NULL, NULL),
-(6, '', 'aasdasd', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asdasd&lt;/p&gt;\r\n\r\n', 4, 0, 'D:\\XAMPP\\htdocs\\micael\\vocesemduvidas-profmicael\\areadoaluno\\images\\cursosDJI_0912.jpg', 'https://youtu.be/PSUx7-WddOg', 545.55, 3, '::1', NULL, '2019-04-11 10:36:36', NULL, NULL),
-(7, '', 'ds gsfg ', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asgwr erger&lt;/p&gt;\r\n\r\n', 4, 0, 'images/cursos/Adobe_Post_20190326_091209.png', '', 4444.44, 3, '::1', NULL, '2019-04-11 10:38:32', NULL, NULL),
-(8, '', 'ds gsfg ', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asgwr erger&lt;/p&gt;\r\n\r\n', 4, 0, 'images/cursos/Adobe_Post_20190326_091209.png', '', 4444.44, 3, '::1', NULL, '2019-04-11 10:41:40', NULL, NULL),
-(9, '', 'ds gsfg ', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asgwr erger&lt;/p&gt;\r\n\r\n', 4, 0, 'images/cursos/DJI_0912.jpg', '', 4444.44, 3, '::1', NULL, '2019-04-11 10:42:05', NULL, NULL),
-(10, '', 'ds gsfg ', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asgwr erger&lt;/p&gt;\r\n\r\n', 4, 0, 'images/cursos/Adobe_Post_20190326_091209.png', '', 4444.44, 3, '::1', NULL, '2019-04-11 10:43:55', NULL, NULL),
-(11, '', 'ds gsfg ', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asgwr erger&lt;/p&gt;\r\n\r\n', 4, 0, 'D:\nMPP\\htdocs\\micaelocesemduvidas-profmicael\\areadoaluno\\images\\cursos', '', 4444.44, 3, '::1', NULL, '2019-04-11 10:58:40', NULL, NULL),
-(12, '', 'ds gsfg ', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asgwr erger&lt;/p&gt;\r\n\r\n', 4, 0, 'D:\nMPP\\htdocs\\micaelocesemduvidas-profmicael\\areadoaluno\\images\\cursosAdobe_Post_20190326_091209.png', '', 4444.44, 3, '::1', NULL, '2019-04-11 11:02:23', NULL, NULL),
-(13, '', 'ds gsfg  adfa sfwef', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;asgwr ergerefw efwaefawefwef&lt;/p&gt;\r\n\r\n', 4, 0, 'D:\nMPP\\htdocs\\micaelocesemduvidas-profmicael\\areadoaluno\\images\\cursosAdobe_Post_20190326_091209.png', '', 4444.44, 3, '::1', NULL, '2019-04-11 11:02:45', NULL, NULL),
-(14, '', 'd vf df ', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;d df df&amp;nbsp;&lt;/p&gt;\r\n\r\n', 4, 0, 'D:/XAMPP/htdocs/micael/vocesemduvidas-profmicael/areadoaluno/images/cursos/Adobe_Post_20190326_091209.png', 'https://youtu.be/PSUx7-WddOg', 2222.22, 0, '::1', NULL, '2019-04-11 11:04:22', NULL, NULL),
-(15, '', ' sd s  ws wvewevwev', '\r\n\r\n\r\n\r\n\r\n&lt;p&gt;ewfawefa wefaefa ew fawefwef&lt;/p&gt;\r\n\r\n', 4, 0, 'images/cursos/Adobe_Post_20190326_091209.png', 'https://youtu.be/PSUx7-WddOg', 3311.22, 3, '::1', NULL, '2019-04-11 11:05:04', NULL, NULL);
+INSERT INTO `aulas` (`id`, `codigo`, `titulo`, `descricao`, `idDisciplina`, `idTopico`, `urlCapa`, `urlVideoIntro`, `valor`, `status`, `ip_cadastro`, `ip_exclusao`, `dt_cadastro`, `dt_alteracao`, `dt_exclusao`, `idUserCadastro`, `idUserAlteracao`, `idUserExclusao`) VALUES
+(8, 'A-MT-0001', 'Função do 1º grau', '&lt;p&gt;Fun&amp;ccedil;&amp;atilde;o do 1&amp;ordm; grau tem ca&amp;iacute;do quase que em 100% das quest&amp;otilde;es das provas do Exame Nacional do Ensino M&amp;eacute;dio. Bons estudos&lt;/p&gt;', 14, 10, '/aulas/muv.jpg', 'https://www.youtube.com/watch?v=qK6bZavYoxw', 0.00, 3, '::1', NULL, '2020-01-12 04:15:43', NULL, NULL, NULL, NULL, NULL),
+(10, 'A-MT-0002', 'Potenciação', '&lt;p&gt;Potencia&amp;ccedil;&amp;atilde;o Potencia&amp;ccedil;&amp;atilde;o&lt;/p&gt;', 14, 11, '/aulas/muv.jpg', 'https://www.youtube.com/watch?v=8jJMvvy8jlI', 0.00, 3, '::1', NULL, '2020-01-14 04:53:13', NULL, NULL, NULL, NULL, NULL),
+(12, 'A-FI-0001', 'Fundamentos da leis de Newton', '&lt;p&gt;As leis de Newton fundamentam a base da Mec&amp;acirc;nica Cl&amp;aacute;ssica. S&amp;atilde;o um conjunto de tr&amp;ecirc;s leis capazes de explicar a din&amp;acirc;mica que envolve o movimento dos corpos. Essas leis foram publicadas pela primeira vez pelo f&amp;iacute;sico ingl&amp;ecirc;s Isaac Newton, no ano de 1687, em sua obra de tr&amp;ecirc;s volumes intitulada Princ&amp;iacute;pios Matem&amp;aacute;ticos da Filosofia Natural.&lt;/p&gt;', 13, 9, '/aulas/muv.jpg', 'https://www.youtube.com/watch?v=zivgBTNu2IM', 0.00, 3, '::1', NULL, '2020-01-20 03:30:26', NULL, NULL, NULL, NULL, NULL),
+(14, 'A-MT-0003', 'Trila de Aula de Prisma 3', '<p>\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"</p>\n<p>&nbsp;</p>\n<p><br />&aacute;&eacute;&iacute;&oacute;&uacute;</p>\n<p>&agrave;&egrave;</p>\n<p>&atilde;&otilde;<br />{}</p>\n<p>&acirc;&ocirc;</p>\n<p>~^&ordf;&ordm;</p>\n<p>;?:!@#$%*&uml;&amp;*()_+&sup1;&sup2;&sup3;&pound;&cent;&not;{[]}\\&sect;</p>', 14, 10, '/aulas/muv.jpg', 'https://www.youtube.com/watch?v=mB5TtW_OwRE', 0.00, 3, '::1', NULL, '2020-01-23 05:29:52', NULL, NULL, NULL, NULL, NULL),
+(18, 'A-FI-0002', 'MUV Conceitos basicos', '<p><strong>MUV - Movimento Uniformemente Variado</strong> &eacute; o movimento no qual a velocidade escalar varia uniformemente no decorrer do tempo. O movimento caracteriza-se por haver uma acelera&ccedil;&atilde;o escalar constante e diferente de 0.</p>', 13, 8, '/aulas/muv.jpg', 'https://youtu.be/9PaHL9YSk7U', 0.00, 3, '::1', NULL, '2020-02-21 05:50:46', NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -162,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `bancas` (
   `descricao` varchar(100) DEFAULT NULL,
   `observacao` varchar(250) NOT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -203,18 +200,20 @@ CREATE TABLE IF NOT EXISTS `cursos` (
   `status` int(1) NOT NULL,
   `ip_cadastro` varchar(15) DEFAULT NULL,
   `ip_exclusao` varchar(15) DEFAULT NULL,
-  `dt_cadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_cadastro` timestamp NULL DEFAULT current_timestamp(),
   `dt_alteracao` datetime DEFAULT NULL,
   `dt_exclusao` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
 -- Extraindo dados da tabela `cursos`
 --
 
 INSERT INTO `cursos` (`id`, `titulo`, `descricao`, `status`, `ip_cadastro`, `ip_exclusao`, `dt_cadastro`, `dt_alteracao`, `dt_exclusao`) VALUES
-(1, 'Ensino infantil 3º ano', '&lt;p&gt;testando o cadastro dos cursos&lt;/p&gt;', 3, '190.15.97.42', NULL, '2020-02-07 12:13:45', NULL, NULL);
+(2, 'Ensino Fundamental - 1º Ano', '&lt;p&gt;Ensino Fundamental - 9&amp;ordm; Ano&lt;/p&gt;', 3, '::1', NULL, '2020-01-20 04:17:04', NULL, NULL),
+(3, 'Ensino Medio - 2º Ano', '&lt;p&gt;a sdfasfawefawefawef&lt;/p&gt;', 3, '::1', NULL, '2020-01-31 03:59:00', NULL, NULL),
+(4, 'Curso Matemática 3º Ano TESTE', '&lt;p&gt;Matem&amp;aacute;tica 1&amp;ordm; Ano teste&lt;/p&gt;', 3, '::1', NULL, '2020-03-18 05:14:42', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -233,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `disciplinas` (
   `status` int(1) NOT NULL,
   `ip_cadastro` varchar(15) DEFAULT NULL,
   `ip_exclusao` varchar(15) DEFAULT NULL,
-  `dt_cadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_cadastro` timestamp NULL DEFAULT current_timestamp(),
   `dt_alteracao` datetime DEFAULT NULL,
   `dt_exclusao` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -255,7 +254,7 @@ INSERT INTO `disciplinas` (`id`, `idTipoDisciplina`, `nome`, `titulo`, `descrica
 (9, 0, 'MATEMÁTICA ', 'MATEMÁTICA PARA O 9º ANO DO ENSINO FUNDAMENTAL', 'ONDE APARECE ESSE CAMPO?', '', 9, '181.191.106.26', NULL, '2019-06-17 03:54:51', NULL, NULL),
 (10, 10, 'MATEM?TICA ', 'MATEM?TICA PARA O 9? ANO DO ENSINO FUNDAMENTAL', 'MATEMÁTICA', '', 9, '181.191.106.26', NULL, '2019-06-17 04:02:14', '2019-07-05 19:10:22', NULL),
 (11, 2, 'HISTÓRIA', 'ONDE O TÍTULO APARECE?', 'AINDA NÃO SEI A FINALIDADE, PORÉM APARECE EM UMA CAMPO SEM SENTIDO.', '', 9, '181.191.106.26', NULL, '2019-06-17 04:31:41', NULL, NULL),
-(12, 12, 'BIOLOGIA', 'BIOLOGIA RETIRAR', 'DESCRICAO SOBRE BIOLOGIA', 'BI', 3, '179.176.10.134', NULL, '2019-07-05 22:16:05', '2019-08-28 10:46:32', NULL),
+(12, 12, 'BIOLOGIA', 'BIOLOGIA', 'BIOLOGIA', 'BI', 3, '179.176.10.134', NULL, '2019-07-05 22:16:05', '2019-09-06 00:55:53', NULL),
 (13, 12, 'FÍSICA', 'FÍSICA', 'FÍSICA', 'FI', 3, '179.176.10.134', NULL, '2019-07-05 22:18:27', '2019-08-28 21:01:54', NULL),
 (14, 11, 'MATEMÁTICA', 'MATEMÁTICA', 'MATEMÁTICA', 'MT', 3, '190.15.97.42', NULL, '2019-08-28 13:47:02', '2019-08-28 14:28:33', NULL);
 
@@ -271,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `disciplinatipos` (
   `descricao` varchar(100) DEFAULT NULL,
   `observacao` varchar(250) NOT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -314,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `endcidade` (
   `descricao` varchar(100) DEFAULT NULL,
   `sigla` varchar(10) DEFAULT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10049,7 +10048,7 @@ CREATE TABLE IF NOT EXISTS `endestados` (
   `descricao` varchar(100) DEFAULT NULL,
   `sigla` varchar(10) DEFAULT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10103,7 +10102,7 @@ CREATE TABLE IF NOT EXISTS `endpaises` (
   `descricao` varchar(100) DEFAULT NULL,
   `sigla` varchar(10) DEFAULT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10137,7 +10136,7 @@ CREATE TABLE IF NOT EXISTS `endregioes` (
   `descricao` varchar(100) DEFAULT NULL,
   `sigla` varchar(10) DEFAULT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10189,13 +10188,13 @@ CREATE TABLE IF NOT EXISTS `escolas` (
   `telefone2` varchar(20) DEFAULT NULL,
   `telefone3` varchar(20) DEFAULT NULL,
   `fax` varchar(20) DEFAULT NULL,
-  `email` text,
+  `email` text DEFAULT NULL,
   `site` varchar(200) DEFAULT NULL,
   `senha` text NOT NULL,
-  `urlLogo` text,
+  `urlLogo` text DEFAULT NULL,
   `fk_idTipoUsuario` int(11) DEFAULT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10224,7 +10223,7 @@ CREATE TABLE IF NOT EXISTS `escolatipos` (
   `descricao` varchar(100) NOT NULL,
   `observacao` varchar(245) DEFAULT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10263,7 +10262,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `iconeTag` varchar(50) NOT NULL,
   `exibeIcone` char(1) NOT NULL DEFAULT 'S',
   `chave` varchar(50) NOT NULL,
-  `ordem` int(10) NOT NULL DEFAULT '0',
+  `ordem` int(10) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
@@ -10332,6 +10331,95 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `no_cursoassuntos`
+--
+
+DROP TABLE IF EXISTS `no_cursoassuntos`;
+CREATE TABLE IF NOT EXISTS `no_cursoassuntos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idCurso` int(11) NOT NULL,
+  `idAssunto` int(11) NOT NULL,
+  `ordem` int(1) NOT NULL DEFAULT 0,
+  `idStatus` int(1) NOT NULL DEFAULT 0,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
+  `dataAlteracao` datetime DEFAULT NULL,
+  `dataExclusao` datetime DEFAULT NULL,
+  `idUserCadastro` int(11) DEFAULT NULL,
+  `idUserAlteracao` int(11) DEFAULT NULL,
+  `idUserExclusao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `no_cursoassuntos`
+--
+
+INSERT INTO `no_cursoassuntos` (`id`, `idCurso`, `idAssunto`, `ordem`, `idStatus`, `dataCadastro`, `dataAlteracao`, `dataExclusao`, `idUserCadastro`, `idUserAlteracao`, `idUserExclusao`) VALUES
+(1, 2, 9, 0, 9, '2020-02-01 05:55:04', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(2, 2, 10, 0, 9, '2020-02-01 06:06:27', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(3, 2, 6, 1, 9, '2020-02-01 06:06:27', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(4, 2, 7, 2, 9, '2020-02-01 06:06:27', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(5, 2, 8, 3, 9, '2020-02-01 06:06:27', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(6, 2, 11, 4, 9, '2020-02-01 06:06:27', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(7, 2, 10, 0, 9, '2020-02-01 06:06:42', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(8, 2, 6, 1, 9, '2020-02-01 06:06:42', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(9, 2, 7, 2, 9, '2020-02-01 06:06:42', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(10, 2, 8, 3, 9, '2020-02-01 06:06:42', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(11, 2, 11, 4, 9, '2020-02-01 06:06:42', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(12, 2, 10, 0, 9, '2020-02-01 06:09:51', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(13, 2, 6, 1, 9, '2020-02-01 06:09:51', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(14, 2, 7, 2, 9, '2020-02-01 06:09:51', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(15, 2, 8, 3, 9, '2020-02-01 06:09:51', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(16, 2, 11, 4, 9, '2020-02-01 06:09:51', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(17, 3, 4, 0, 3, '2020-02-01 06:10:18', NULL, NULL, 1, NULL, NULL),
+(18, 3, 5, 1, 3, '2020-02-01 06:10:18', NULL, NULL, 1, NULL, NULL),
+(19, 2, 10, 0, 9, '2020-02-01 06:18:09', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(20, 2, 6, 1, 9, '2020-02-01 06:18:09', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(21, 2, 7, 2, 9, '2020-02-01 06:18:09', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(22, 2, 8, 3, 9, '2020-02-01 06:18:09', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(23, 2, 11, 4, 9, '2020-02-01 06:18:09', NULL, '2020-02-01 03:23:54', 1, NULL, 1),
+(24, 2, 10, 0, 3, '2020-02-01 06:23:54', NULL, NULL, 1, NULL, NULL),
+(25, 2, 6, 1, 3, '2020-02-01 06:23:54', NULL, NULL, 1, NULL, NULL),
+(26, 2, 7, 2, 3, '2020-02-01 06:23:54', NULL, NULL, 1, NULL, NULL),
+(27, 2, 8, 3, 3, '2020-02-01 06:23:54', NULL, NULL, 1, NULL, NULL),
+(28, 2, 11, 4, 3, '2020-02-01 06:23:54', NULL, NULL, 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `no_cursoaulas`
+--
+
+DROP TABLE IF EXISTS `no_cursoaulas`;
+CREATE TABLE IF NOT EXISTS `no_cursoaulas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idCurso` int(11) NOT NULL,
+  `idAula` int(11) NOT NULL,
+  `ordem` int(1) NOT NULL DEFAULT 0,
+  `idStatus` int(1) NOT NULL DEFAULT 0,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
+  `dataAlteracao` datetime DEFAULT NULL,
+  `dataExclusao` datetime DEFAULT NULL,
+  `idUserCadastro` int(11) DEFAULT NULL,
+  `idUserAlteracao` int(11) DEFAULT NULL,
+  `idUserExclusao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `no_cursoaulas`
+--
+
+INSERT INTO `no_cursoaulas` (`id`, `idCurso`, `idAula`, `ordem`, `idStatus`, `dataCadastro`, `dataAlteracao`, `dataExclusao`, `idUserCadastro`, `idUserAlteracao`, `idUserExclusao`) VALUES
+(22, 4, 8, 0, 3, '2020-03-18 07:15:52', NULL, NULL, 1, NULL, NULL),
+(23, 4, 10, 1, 3, '2020-03-18 07:15:52', NULL, NULL, 1, NULL, NULL),
+(24, 4, 14, 2, 3, '2020-03-18 07:15:52', NULL, NULL, 1, NULL, NULL),
+(30, 3, 12, 0, 3, '2020-03-24 04:25:14', NULL, NULL, 1, NULL, NULL),
+(31, 3, 18, 1, 3, '2020-03-24 04:25:14', NULL, NULL, 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `no_tpusuariomenu`
 --
 
@@ -10340,75 +10428,103 @@ CREATE TABLE IF NOT EXISTS `no_tpusuariomenu` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `fk_idTpUsuario` int(11) NOT NULL,
   `fk_idMenu` int(11) NOT NULL,
-  `dt_cadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_cadastro` timestamp NOT NULL DEFAULT current_timestamp(),
   `dt_alteracao` datetime DEFAULT NULL,
   `idUser_cadastro` int(11) DEFAULT NULL,
   `idUser_alteracao` int(11) DEFAULT NULL,
-  `ins` int(1) NOT NULL DEFAULT '0',
-  `del` int(1) NOT NULL DEFAULT '0',
-  `upd` int(1) DEFAULT '0',
+  `ins` int(1) NOT NULL DEFAULT 0,
+  `del` int(1) NOT NULL DEFAULT 0,
+  `upd` int(1) DEFAULT 0,
   `status` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `no_tpusuariomenu`
 --
 
 INSERT INTO `no_tpusuariomenu` (`id`, `fk_idTpUsuario`, `fk_idMenu`, `dt_cadastro`, `dt_alteracao`, `idUser_cadastro`, `idUser_alteracao`, `ins`, `del`, `upd`, `status`) VALUES
-(1, 1, 1, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(2, 1, 42, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(3, 1, 44, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(4, 1, 38, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(5, 1, 45, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(6, 1, 46, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(7, 1, 47, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(8, 1, 48, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(9, 1, 34, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(10, 1, 35, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(11, 1, 36, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(12, 1, 26, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(13, 1, 31, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(14, 1, 27, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(15, 1, 28, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(16, 1, 37, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(17, 1, 29, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(18, 1, 30, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(19, 1, 9, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(20, 1, 39, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(21, 1, 40, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(22, 1, 10, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(23, 1, 14, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(24, 1, 11, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(25, 1, 25, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(26, 1, 12, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(27, 1, 13, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(28, 1, 32, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(29, 1, 33, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(30, 1, 20, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(31, 1, 23, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(32, 1, 21, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(33, 1, 22, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(34, 1, 24, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(35, 1, 4, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(36, 1, 5, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(37, 1, 6, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(38, 1, 15, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(39, 1, 3, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(40, 1, 7, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(41, 1, 8, '2020-01-28 05:20:12', NULL, 1, NULL, 1, 1, 1, 3),
-(42, 1, 2, '2020-01-28 05:20:13', NULL, 1, NULL, 1, 1, 1, 3),
-(43, 1, 16, '2020-01-28 05:20:13', NULL, 1, NULL, 1, 1, 1, 3),
-(44, 1, 17, '2020-01-28 05:20:13', NULL, 1, NULL, 1, 1, 1, 3),
-(45, 1, 18, '2020-01-28 05:20:13', NULL, 1, NULL, 1, 1, 1, 3),
-(46, 1, 19, '2020-01-28 05:20:13', NULL, 1, NULL, 1, 1, 1, 3),
-(47, 4, 42, '2020-01-28 06:01:58', NULL, 1, NULL, 1, 1, 1, 3),
-(48, 4, 44, '2020-01-28 06:01:58', NULL, 1, NULL, 1, 1, 1, 3),
-(49, 4, 38, '2020-01-28 06:01:58', NULL, 1, NULL, 1, 1, 1, 3),
-(50, 4, 45, '2020-01-28 06:01:58', NULL, 1, NULL, 1, 1, 1, 3),
-(51, 4, 46, '2020-01-28 06:01:58', NULL, 1, NULL, 1, 1, 1, 3),
-(52, 4, 47, '2020-01-28 06:01:58', NULL, 1, NULL, 1, 1, 1, 3),
-(53, 4, 48, '2020-01-28 06:01:58', NULL, 1, NULL, 1, 1, 1, 3);
+(108, 4, 42, '2020-01-21 02:26:17', NULL, 1, NULL, 1, 1, 1, 3),
+(109, 4, 44, '2020-01-21 02:26:17', NULL, 1, NULL, 1, 1, 1, 3),
+(110, 4, 38, '2020-01-21 02:26:17', NULL, 1, NULL, 1, 1, 1, 3),
+(111, 4, 45, '2020-01-21 02:26:17', NULL, 1, NULL, 1, 1, 1, 3),
+(112, 4, 46, '2020-01-21 02:26:17', NULL, 1, NULL, 1, 1, 1, 3),
+(113, 4, 47, '2020-01-21 02:26:17', NULL, 1, NULL, 1, 1, 1, 3),
+(114, 4, 48, '2020-01-21 02:26:17', NULL, 1, NULL, 1, 1, 1, 3),
+(115, 1, 1, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(116, 1, 42, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(117, 1, 44, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(118, 1, 38, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(119, 1, 45, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(120, 1, 46, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(121, 1, 47, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(122, 1, 48, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(123, 1, 34, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(124, 1, 35, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(125, 1, 36, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(126, 1, 26, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(127, 1, 31, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(128, 1, 27, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(129, 1, 28, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(130, 1, 37, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(131, 1, 29, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(132, 1, 30, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(133, 1, 9, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(134, 1, 39, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(135, 1, 40, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(136, 1, 10, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(137, 1, 14, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(138, 1, 11, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(139, 1, 25, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(140, 1, 12, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(141, 1, 13, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(142, 1, 32, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(143, 1, 33, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(144, 1, 20, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(145, 1, 23, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(146, 1, 21, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(147, 1, 22, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(148, 1, 24, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(149, 1, 4, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(150, 1, 5, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(151, 1, 6, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(152, 1, 15, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(153, 1, 3, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(154, 1, 7, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(155, 1, 8, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(156, 1, 2, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(157, 1, 16, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(158, 1, 17, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(159, 1, 18, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3),
+(160, 1, 19, '2020-01-21 05:09:29', NULL, 1, NULL, 1, 1, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `no_trilho`
+--
+
+DROP TABLE IF EXISTS `no_trilho`;
+CREATE TABLE IF NOT EXISTS `no_trilho` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idAula` int(11) NOT NULL,
+  `trilho` longtext NOT NULL,
+  `idStatus` int(1) NOT NULL DEFAULT 0,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
+  `dataAlteracao` datetime DEFAULT NULL,
+  `dataExclusao` datetime DEFAULT NULL,
+  `idUserCadastro` int(11) DEFAULT NULL,
+  `idUserAlteracao` int(11) DEFAULT NULL,
+  `idUserExclusao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `no_trilho`
+--
+
+INSERT INTO `no_trilho` (`id`, `idAula`, `trilho`, `idStatus`, `dataCadastro`, `dataAlteracao`, `dataExclusao`, `idUserCadastro`, `idUserAlteracao`, `idUserExclusao`) VALUES
+(10, 8, '[{\"id\":8,\"type\":\"V\"},{\"id\":2,\"type\":\"Q\"}]', 3, '2020-03-24 03:15:55', NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10421,24 +10537,25 @@ CREATE TABLE IF NOT EXISTS `no_usuariocursopermissao` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
   `idCurso` int(11) NOT NULL,
-  `cursopadrao` tinyint(1) NOT NULL DEFAULT '0',
-  `permissao` tinyint(1) DEFAULT '0',
-  `idStatus` int(1) NOT NULL DEFAULT '0',
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `cursopadrao` tinyint(1) NOT NULL DEFAULT 0,
+  `permissao` tinyint(1) DEFAULT 0,
+  `idStatus` int(1) NOT NULL DEFAULT 0,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
   `idUserAlteracao` int(11) DEFAULT NULL,
   `idUserExclusao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `no_usuariocursopermissao`
 --
 
 INSERT INTO `no_usuariocursopermissao` (`id`, `idUser`, `idCurso`, `cursopadrao`, `permissao`, `idStatus`, `dataCadastro`, `dataAlteracao`, `dataExclusao`, `idUserCadastro`, `idUserAlteracao`, `idUserExclusao`) VALUES
-(1, 7, 1, 1, 1, 3, '2020-02-07 12:15:27', NULL, NULL, NULL, NULL, NULL);
+(5, 7, 4, 1, 1, 3, '2020-01-30 03:00:00', '2020-01-31 23:15:15', NULL, 1, 7, NULL),
+(39, 1, 4, 1, 1, 3, '2020-03-24 04:30:28', NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10451,16 +10568,16 @@ CREATE TABLE IF NOT EXISTS `questionarioquestoes` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `idquestionario` int(11) NOT NULL,
   `idquestao` int(11) NOT NULL,
-  `ordem` int(3) NOT NULL DEFAULT '0',
+  `ordem` int(3) NOT NULL DEFAULT 0,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `dataAlteracao` datetime DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
+  `dataAlteracao` datetime DEFAULT current_timestamp(),
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
   `idUserAlteracao` int(11) DEFAULT NULL,
   `idUserExclusao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -10470,24 +10587,36 @@ CREATE TABLE IF NOT EXISTS `questionarioquestoes` (
 
 DROP TABLE IF EXISTS `questionarios`;
 CREATE TABLE IF NOT EXISTS `questionarios` (
-  `id` int(11) NOT NULL,
-  `tipoquestionario` char(1) DEFAULT NULL,
-  `titulo` varchar(200) DEFAULT NULL,
-  `descricao` text,
-  `observacao` text,
-  `exibeobs` char(1) NOT NULL DEFAULT 'N',
-  `exibedica` char(1) NOT NULL DEFAULT 'N',
-  `pontuar` tinyint(1) DEFAULT NULL,
-  `tempoduracao` double(10,2) DEFAULT '0.00',
-  `publico` char(1) DEFAULT 'N',
-  `idStatus` int(1) DEFAULT '0',
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `dataAlteracao` datetime DEFAULT CURRENT_TIMESTAMP,
-  `dataExclusao` datetime DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `tipoquestionario` char(1) NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `observacao` text DEFAULT NULL,
+  `exibeobs` char(1) DEFAULT 'N',
+  `exibedica` text DEFAULT NULL,
+  `pontuar` tinyint(1) DEFAULT 0,
+  `tempoduracao` double(10,2) DEFAULT NULL,
+  `publico` char(1) DEFAULT NULL,
+  `jsonquestoes` text DEFAULT NULL,
+  `status` int(1) DEFAULT 0,
+  `ip_cadastro` varchar(15) DEFAULT NULL,
+  `ip_exclusao` varchar(15) DEFAULT NULL,
+  `dt_cadastro` timestamp NULL DEFAULT current_timestamp(),
+  `dt_alteracao` datetime DEFAULT NULL,
+  `dt_exclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
   `idUserAlteracao` int(11) DEFAULT NULL,
-  `idUserExclusao` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idUserExclusao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `questionarios`
+--
+
+INSERT INTO `questionarios` (`id`, `tipoquestionario`, `titulo`, `descricao`, `observacao`, `exibeobs`, `exibedica`, `pontuar`, `tempoduracao`, `publico`, `jsonquestoes`, `status`, `ip_cadastro`, `ip_exclusao`, `dt_cadastro`, `dt_alteracao`, `dt_exclusao`, `idUserCadastro`, `idUserAlteracao`, `idUserExclusao`) VALUES
+(2, 'P', 'quiz um praticando', 'observacoes gerais', 'observacoes gerais', 'N', 'dicas 1', 0, NULL, NULL, '[\"11\",\"10\",\"12\"]', 3, '::1', NULL, '2020-01-10 06:47:18', NULL, NULL, 1, NULL, NULL),
+(3, 'A', 'testando avaliativo', ' fsdfsdf sd', ' fsdfsdf sd', 'N', 'asd adf', 0, NULL, NULL, '[\"11\",\"8\",\"10\"]', 1, '::1', NULL, '2020-03-18 04:12:17', NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -10500,11 +10629,11 @@ CREATE TABLE IF NOT EXISTS `questoes` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `codigo` varchar(12) DEFAULT NULL,
   `idTopico` int(11) DEFAULT NULL,
-  `enunciado` mediumtext,
+  `enunciado` mediumtext DEFAULT NULL,
   `titulo` text NOT NULL,
-  `observacao` text,
-  `obsAcerto` text,
-  `obsErro` text,
+  `observacao` text DEFAULT NULL,
+  `obsAcerto` text DEFAULT NULL,
+  `obsErro` text DEFAULT NULL,
   `dica` text NOT NULL,
   `ano` year(4) DEFAULT NULL,
   `urlCurto` varchar(200) DEFAULT NULL,
@@ -10512,7 +10641,7 @@ CREATE TABLE IF NOT EXISTS `questoes` (
   `idAulaExplicativa` int(11) DEFAULT NULL,
   `idBanca` int(11) DEFAULT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10545,7 +10674,7 @@ CREATE TABLE IF NOT EXISTS `series` (
   `descricao` varchar(100) DEFAULT NULL,
   `observacao` varchar(250) NOT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10575,7 +10704,7 @@ CREATE TABLE IF NOT EXISTS `tipoendereco` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `titulo` varchar(100) NOT NULL,
   `descricao` text NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -10628,7 +10757,7 @@ CREATE TABLE IF NOT EXISTS `tipotelefone` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `titulo` varchar(100) NOT NULL,
   `descricao` text NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -10656,14 +10785,14 @@ CREATE TABLE IF NOT EXISTS `topicos` (
   `descricao` varchar(100) DEFAULT NULL,
   `observacao` varchar(250) NOT NULL,
   `idStatus` int(1) DEFAULT NULL,
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
   `idUserAlteracao` int(11) DEFAULT NULL,
   `idUserExclusao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `topicos`
@@ -10681,7 +10810,18 @@ INSERT INTO `topicos` (`id`, `idAssunto`, `descricao`, `observacao`, `idStatus`,
 (9, 5, 'LEIS DE NEWTOON', 'LEIS DE NEWTOON', 3, '2019-07-05 23:52:30', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0),
 (10, 7, 'Prisma', 'Prisma', 3, '2019-08-29 00:06:33', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0),
 (11, 6, 'Função de 1º Grau', 'Função de 1º Grau', 3, '2019-08-29 00:06:45', '2019-08-28 21:06:49', '0000-00-00 00:00:00', 1, 1, 0),
-(12, 6, 'Função de 2º Grau', 'Função de 2º Grau', 3, '2019-08-29 00:07:05', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0);
+(12, 6, 'Função de 2º Grau', 'Função de 2º Grau', 3, '2019-08-29 00:07:05', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0),
+(13, 8, 'Triângulo', 'Triângulo', 3, '2019-09-06 04:31:41', NULL, NULL, 1, NULL, NULL),
+(14, 9, 'Biologicas', 'Biologicas', 3, '2020-01-10 05:21:20', NULL, NULL, 1, NULL, NULL),
+(15, 10, 'Conceitos primitivos relação de pertinência', 'Conceitos primitivos relação de pertinência', 3, '2020-01-12 05:07:24', NULL, NULL, 1, NULL, NULL),
+(16, 10, 'Relação de Inclusão', 'Relação de Inclusão', 3, '2020-01-12 05:07:35', NULL, NULL, 1, NULL, NULL),
+(17, 10, 'Operações com conjuntos', 'Operações com conjuntos', 3, '2020-01-12 05:07:48', NULL, NULL, 1, NULL, NULL),
+(18, 10, 'Problemas envolvendo número de elementos de um conjunto', 'Problemas envolvendo número de elementos de um conjunto', 3, '2020-01-12 05:08:11', NULL, NULL, 1, NULL, NULL),
+(19, 11, 'Potenciação', 'Potenciação', 3, '2020-01-14 04:32:25', NULL, NULL, 1, NULL, NULL),
+(20, 11, 'Potenciação', 'Potenciação', 9, '2020-01-14 04:34:54', NULL, '2020-01-14 01:38:06', 1, NULL, 1),
+(21, 11, 'Potenciação', 'Potenciação', 9, '2020-01-14 04:35:31', NULL, '2020-01-14 01:38:02', 1, NULL, 1),
+(22, 11, 'Potenciação', 'Potenciação', 9, '2020-01-14 04:36:14', NULL, '2020-01-14 01:37:58', 1, NULL, 1),
+(23, 11, 'Potenciação', 'Potenciação', 9, '2020-01-14 04:37:44', NULL, '2020-01-14 01:37:54', 1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -10696,15 +10836,16 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `nome` varchar(250) NOT NULL,
   `cpfcnpj` varchar(14) NOT NULL,
   `email` varchar(250) NOT NULL,
-  `telefone` varchar(30) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
+  `foto` text DEFAULT NULL,
   `senha` text NOT NULL,
   `cor` varchar(15) NOT NULL,
-  `status` int(1) UNSIGNED ZEROFILL NOT NULL DEFAULT '0',
+  `status` int(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0,
   `ip_cadastro` varchar(15) DEFAULT '0.0.0.0',
   `ip_ativacao` varchar(15) DEFAULT '0.0.0.0',
   `ip_alteracao` varchar(15) DEFAULT '0.0.0.0',
   `ip_exclusao` varchar(15) DEFAULT '0.0.0.0',
-  `dt_cadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_cadastro` timestamp NULL DEFAULT current_timestamp(),
   `dt_ativacao` datetime DEFAULT NULL,
   `dt_alteracao` datetime DEFAULT NULL,
   `dt_exclusao` datetime DEFAULT NULL,
@@ -10717,10 +10858,10 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 -- Extraindo dados da tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `fk_idTipoUsuario`, `nome`, `cpfcnpj`, `email`, `telefone`, `senha`, `cor`, `status`, `ip_cadastro`, `ip_ativacao`, `ip_alteracao`, `ip_exclusao`, `dt_cadastro`, `dt_ativacao`, `dt_alteracao`, `dt_exclusao`) VALUES
-(1, 1, 'Guilherme Allan', '05388516431', 'guiallan.al@gmail.com', '', '0x3bab43fb280288dfeaa71cbbffbc120bced3fbe9946cd2b284c245edc7625a639440dcbffb7913b59676d9780fce7ff79d144457a70a458454c7871a5ecddca39440dcbffb7913b59676d9780fce7ff79d144457a70a458454c7871a5ecddca3', 'deep-purple', 3, '179.176.2.26', '179.176.2.26', '0.0.0.0', '0.0.0.0', '2019-02-01 11:28:17', '2019-02-01 04:28:41', NULL, NULL),
-(6, 1, 'Professor Micael', '01234567890', 'micacel@gmail.com', '82999999999', '0xee29eb4a8725678278ac439cf7abfd2a849cdc7378a6b6316017b81c51d720e72762f0298176a617454ee102bafba64546303fd4189d074b9bc273eaf0187ea72762f0298176a617454ee102bafba64546303fd4189d074b9bc273eaf0187ea7', 'black', 3, '179.162.134.37', '179.162.134.37', '190.15.97.42', '0.0.0.0', '2019-03-19 13:49:48', '2019-03-19 10:49:48', '2020-02-07 09:18:49', NULL),
-(7, 4, 'Aluno Teste', '00100100101', 'guiallan.al@gmail.com', '', '0x380eef7a2a1cfa573c304994c43b776107797d5e4c5796574d343fb39e042cc88d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c928d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'amber', 3, '179.162.134.37', '179.162.134.37', '0.0.0.0', '0.0.0.0', '2019-03-19 13:50:19', '2019-03-19 10:50:19', NULL, NULL);
+INSERT INTO `usuarios` (`id`, `fk_idTipoUsuario`, `nome`, `cpfcnpj`, `email`, `telefone`, `foto`, `senha`, `cor`, `status`, `ip_cadastro`, `ip_ativacao`, `ip_alteracao`, `ip_exclusao`, `dt_cadastro`, `dt_ativacao`, `dt_alteracao`, `dt_exclusao`) VALUES
+(1, 1, 'Guilherme Almeida', '05388516431', 'guiallan.al@gmail.com', '82999633900', 'https://avatars3.githubusercontent.com/u/6085932?s=460&v=4', '0x3bab43fb280288dfeaa71cbbffbc120bced3fbe9946cd2b284c245edc7625a639440dcbffb7913b59676d9780fce7ff79d144457a70a458454c7871a5ecddca39440dcbffb7913b59676d9780fce7ff79d144457a70a458454c7871a5ecddca3', 'indigo', 3, '179.176.2.26', '179.176.2.26', '::1', '0.0.0.0', '2019-02-01 11:28:17', '2019-02-01 04:28:41', '2020-03-24 01:30:28', NULL),
+(6, 1, 'Professor Micael', '34234234234', 'micacel@gmail.com', '82999999999', '', '0xee29eb4a8725678278ac439cf7abfd2a849cdc7378a6b6316017b81c51d720e78d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c928d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'light-green', 3, '179.162.134.37', '179.162.134.37', '::1', '0.0.0.0', '2019-03-19 13:49:48', '2019-03-19 10:49:48', '2020-01-21 03:12:01', NULL),
+(7, 4, 'John Lennon', '00000000000', 'guiallan.al@gmail.com', '82999887766', '', '0x9c9f57efe04f8f5a65b699db1c777238d5876b44cef240654c749dd09e1790ef8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c928d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'black', 3, '179.162.134.37', '179.162.134.37', '::1', '0.0.0.0', '2019-03-19 13:50:19', '2019-03-19 10:50:19', '2020-03-24 01:31:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -10733,8 +10874,8 @@ CREATE TABLE IF NOT EXISTS `usuariotipos` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `descricao` varchar(100) NOT NULL,
   `observacao` text NOT NULL,
-  `idStatus` int(1) DEFAULT '0',
-  `dataCadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `idStatus` int(1) DEFAULT 0,
+  `dataCadastro` timestamp NULL DEFAULT current_timestamp(),
   `dataAlteracao` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
@@ -10761,28 +10902,40 @@ INSERT INTO `usuariotipos` (`id`, `descricao`, `observacao`, `idStatus`, `dataCa
 
 DROP TABLE IF EXISTS `videoaulas`;
 CREATE TABLE IF NOT EXISTS `videoaulas` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `codigo` varchar(12) DEFAULT NULL,
   `idAssunto` int(11) UNSIGNED NOT NULL,
   `idDisciplina` int(11) UNSIGNED NOT NULL,
   `titulo` varchar(200) NOT NULL,
   `descricao` longtext NOT NULL,
-  `urlCapa` text,
+  `urlCapa` text DEFAULT NULL,
   `urlVideo` text NOT NULL,
-  `urlVideoIntro` text,
-  `tempoDuracaoAula` int(6) DEFAULT NULL,
-  `arquivoDownload` text,
+  `urlVideoIntro` text DEFAULT NULL,
+  `tempoDuracaoAula` time DEFAULT NULL,
+  `arquivoDownload` text DEFAULT NULL,
   `status` int(1) NOT NULL,
   `ip_cadastro` varchar(15) DEFAULT 'NULL',
   `ip_alteracao` varchar(16) DEFAULT NULL,
   `ip_exclusao` varchar(15) DEFAULT 'NULL',
-  `dt_cadastro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `dt_cadastro` timestamp NULL DEFAULT current_timestamp(),
   `dt_alteracao` datetime DEFAULT NULL,
   `dt_exclusao` datetime DEFAULT NULL,
   `idUserCadastro` int(11) DEFAULT NULL,
   `idUserAlteracao` int(11) DEFAULT NULL,
-  `idUserExclusao` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idUserExclusao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo` (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Extraindo dados da tabela `videoaulas`
+--
+
+INSERT INTO `videoaulas` (`id`, `codigo`, `idAssunto`, `idDisciplina`, `titulo`, `descricao`, `urlCapa`, `urlVideo`, `urlVideoIntro`, `tempoDuracaoAula`, `arquivoDownload`, `status`, `ip_cadastro`, `ip_alteracao`, `ip_exclusao`, `dt_cadastro`, `dt_alteracao`, `dt_exclusao`, `idUserCadastro`, `idUserAlteracao`, `idUserExclusao`) VALUES
+(1, 'V-MT-0001', 13, 14, 'ÁREA DE TRIÂNGULO - AULA 1', '&lt;p&gt;Fera,&lt;br /&gt;nessa aula farei uma revis&amp;atilde;o sobre &amp;aacute;rea de tri&amp;acirc;ngulos usando a express&amp;atilde;o mais b&amp;aacute;sica para se calcular a &amp;aacute;rea de um tri&amp;acirc;ngulo. Resolverei 6 quest&amp;otilde;es e espero te ajudar.&lt;/p&gt;', NULL, 'https://www.youtube.com/watch?v=gIEhFJHyiF8', NULL, '00:10:43', NULL, 3, '127.0.0.1', NULL, 'NULL', '2019-09-06 04:50:14', NULL, NULL, 1, NULL, NULL),
+(2, 'V-BI-0001', 14, 12, 'Biologia aula 1', '&lt;p&gt;Aula biologia 1&lt;/p&gt;', NULL, 'https://youtu.be/zEG_Df634Bo', NULL, NULL, NULL, 3, '::1', NULL, 'NULL', '2020-01-10 05:26:42', NULL, NULL, 1, NULL, NULL),
+(3, 'V-MT-0002', 0, 12, 'Conjuntos e Diagramas', '&lt;p&gt;Ol&amp;aacute; pessoal,&lt;br /&gt;nesta aula resolverei mais exerc&amp;iacute;cios sobre porcentagens e fra&amp;ccedil;&amp;otilde;es. Resolvendo exerc&amp;iacute;cios da banca IBFC.&amp;nbsp;&lt;br /&gt;Boa aula!!&lt;br /&gt;Baixe o material da aula:&lt;/p&gt;\r\n&lt;p&gt;&lt;br /&gt;#fra&amp;ccedil;&amp;otilde;es&lt;br /&gt;#porcentagens&lt;br /&gt;#enfermagem&lt;/p&gt;', NULL, 'https://www.youtube.com/watch?v=H72zx68SidM', NULL, NULL, NULL, 3, '::1', NULL, 'NULL', '2020-01-12 05:10:54', NULL, NULL, 1, NULL, NULL),
+(4, 'V-MT-0003', 16, 14, 'bla bla bla', '&lt;p&gt;Breve revis&amp;atilde;o sobre as principais regras de equival&amp;ecirc;ncias l&amp;oacute;gicas e resolverei alguns exerc&amp;iacute;cios da banca IBFC. Boa aula!!&lt;/p&gt;', NULL, 'https://www.youtube.com/watch?v=A0efIw4W_os', NULL, NULL, NULL, 3, '::1', NULL, 'NULL', '2020-01-20 03:01:57', NULL, NULL, 1, NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
